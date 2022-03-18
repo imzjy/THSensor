@@ -1,4 +1,4 @@
-﻿<Window x:Class="THSensor.MainWindow"
+﻿<Window xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"  x:Class="THSensor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,9 +10,12 @@
         <Grid.RowDefinitions>
             <RowDefinition>
             </RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition>
+                
+            </RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -21,10 +24,12 @@
         </TextBlock>
         <TextBlock Text="{Binding Temperature}" Grid.Row="0" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
         </TextBlock>
+        <Wpf:Gauge Grid.Row="0" Grid.Column="2" Value="{Binding Temp}"  From="-10" FromColor="SkyBlue" To="50" ToColor="Wheat" Margin="40" />
         <TextBlock Grid.Row="1" Grid.Column="0" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-60,0,0">
             湿度
         </TextBlock>
         <TextBlock Text="{Binding Humidity}" Grid.Row="1" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-60,0,0">
         </TextBlock>
+        <Wpf:Gauge Grid.Row="1" Grid.Column="2" Value="{Binding Hum}"  From="1" FromColor="Tomato" To="100" ToColor="Blue" Margin="40, -40, 40, 40" />
     </Grid>
 </Window>

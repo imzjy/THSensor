@@ -14,7 +14,10 @@ namespace THSensor
         public decimal Temp
         {
             get => temp;
-            set => SetProperty(ref temp, value, nameof(Temperature));
+            set {
+                SetProperty(ref temp, value, nameof(Temp));
+                OnPropertyChanged(nameof(Temperature));
+            }
         }
 
         public string Temperature
@@ -31,7 +34,11 @@ namespace THSensor
         public decimal Hum
         {
             get => hum;
-            set => SetProperty(ref hum, value, nameof(Humidity));
+            set
+            {
+                SetProperty(ref hum, value, nameof(Hum));
+                OnPropertyChanged(nameof(Humidity));
+            }
         }
     }
 }
