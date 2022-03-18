@@ -1,6 +1,6 @@
 # THSensor
 
-Temperature and humidity sensor with modbus
+Temperature and humidity sensor with modbus protocol
 
 # Haredware
 
