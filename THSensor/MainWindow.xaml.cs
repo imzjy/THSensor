@@ -79,7 +79,11 @@ namespace THSensor
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            timer.Stop();
+
             ReadRegisters();
+
+            timer.Start();
         }
 
         /// <summary>
@@ -93,15 +97,12 @@ namespace THSensor
 
         public void ReadRegisters()
         {
-            timer.Stop();
-
             //var sw = Stopwatch.StartNew();
 
             // read registers - hum & temp
             byte slaveId = 1;
             ushort startAddress = 0x0001;
             ushort numberOfPoints = 0x0002;
-
             var temp = master.ReadInputRegisters(slaveId, startAddress, numberOfPoints);
             if (temp.Length == 2)
             {
@@ -112,10 +113,10 @@ namespace THSensor
             Delay();
             //Debug.WriteLine($"H{sw.ElapsedMilliseconds}");
 
+            //read register - luminace
             byte lumSlaveId = 2;
             ushort lumStartAddress = 0x0002;
             ushort lumNumberOfPoints = 0x0002;
-            //read register - luminace
             var lum = master.ReadHoldingRegisters(lumSlaveId, lumStartAddress, lumNumberOfPoints);
             if (lum.Length == 2)
             {
@@ -128,8 +129,6 @@ namespace THSensor
 
             //sw.Stop();
             //Debug.WriteLine($"L{sw.ElapsedMilliseconds}");
-
-            timer.Start();
         }
     }
 }
