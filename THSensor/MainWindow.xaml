@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:THSensor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" MinHeight="360" MinWidth="600">
     <Grid x:Name="Main">
         <Grid.RowDefinitions>
-            <RowDefinition>
+            <RowDefinition Height="*">
             </RowDefinition>
-            <RowDefinition>
-                
+            <RowDefinition Height="*">
+            </RowDefinition>
+            <RowDefinition Height="*">
+            </RowDefinition>
+            <RowDefinition Height="40">
             </RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,12 +27,18 @@
         </TextBlock>
         <TextBlock Text="{Binding Temperature}" Grid.Row="0" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
         </TextBlock>
-        <Wpf:Gauge Grid.Row="0" Grid.Column="2" Value="{Binding Temp}"  From="-10" FromColor="SkyBlue" To="50" ToColor="Wheat" Margin="40" />
-        <TextBlock Grid.Row="1" Grid.Column="0" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-60,0,0">
+        <Wpf:Gauge Grid.Row="0" Grid.Column="2" Value="{Binding Temp}"  From="-10" FromColor="SkyBlue" To="50" ToColor="Wheat" Margin="10" />
+        <TextBlock Grid.Row="1" Grid.Column="0" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
             湿度
         </TextBlock>
-        <TextBlock Text="{Binding Humidity}" Grid.Row="1" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-60,0,0">
+        <TextBlock Text="{Binding Humidity}" Grid.Row="1" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
         </TextBlock>
-        <Wpf:Gauge Grid.Row="1" Grid.Column="2" Value="{Binding Hum}"  From="1" FromColor="Tomato" To="100" ToColor="Blue" Margin="40, -40, 40, 40" />
+        <Wpf:Gauge Grid.Row="1" Grid.Column="2" Value="{Binding Hum}"  From="1" FromColor="Tomato" To="100" ToColor="Blue" Margin="10" />
+        <TextBlock Grid.Row="2" Grid.Column="0" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
+            光照
+        </TextBlock>
+        <TextBlock Text="{Binding Luminace}" Grid.Row="2" Grid.Column="1" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center">
+        </TextBlock>
+        <Wpf:Gauge Grid.Row="2" Grid.Column="2" Value="{Binding Lux}"  From="1" FromColor="Black" To="5000" ToColor="White" Margin="10" />
     </Grid>
 </Window>

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -18,6 +20,7 @@ using System.Windows.Shapes;
 using NModbus;
 using NModbus.IO;
 using NModbus.Serial;
+using NModbus.Utility;
 
 namespace THSensor
 {
@@ -26,7 +29,7 @@ namespace THSensor
     /// </summary>
     public partial class MainWindow : Window
     {
-        Sensor sensor = new Sensor { Temp = 0m, Hum = 0m };
+        Sensor sensor = new Sensor { Temp = 0m, Hum = 0m, Lux = 0m };
         public MainWindow()
         {
             InitializeComponent();
@@ -43,8 +46,10 @@ namespace THSensor
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            SetupModbus();
-            StartTimer();
+   
+                SetupModbus();
+                StartTimer();
+            
         }
 
         SerialPort port = null;
@@ -65,7 +70,7 @@ namespace THSensor
             master.Transport.WriteTimeout = 5000; //5s
         }
 
-        Timer timer = new Timer(500);
+        System.Timers.Timer timer = new System.Timers.Timer(1000);
         public void StartTimer()
         {
             timer.Elapsed += Timer_Elapsed;
@@ -77,21 +82,54 @@ namespace THSensor
             ReadRegisters();
         }
 
+        /// <summary>
+        /// seems some delay can to boost query performance if multiple slave RTUs
+        /// </summary>
+        /// <param name="ms"></param>
+        public void Delay()
+        {
+            Thread.Sleep(100);
+        }
+
         public void ReadRegisters()
         {
-            //timer.Stop();
+            timer.Stop();
 
+            //var sw = Stopwatch.StartNew();
+
+            // read registers - hum & temp
             byte slaveId = 1;
             ushort startAddress = 0x0001;
             ushort numberOfPoints = 0x0002;
 
-            // read registers
             var temp = master.ReadInputRegisters(slaveId, startAddress, numberOfPoints);
             if (temp.Length == 2)
             {
                 this.sensor.Temp = (temp[0] / 10m);
                 this.sensor.Hum = (temp[1] / 10m);
             }
+
+            Delay();
+            //Debug.WriteLine($"H{sw.ElapsedMilliseconds}");
+
+            byte lumSlaveId = 2;
+            ushort lumStartAddress = 0x0002;
+            ushort lumNumberOfPoints = 0x0002;
+            //read register - luminace
+            var lum = master.ReadHoldingRegisters(lumSlaveId, lumStartAddress, lumNumberOfPoints);
+            if (lum.Length == 2)
+            {
+                //高16位，底16位, val/1000得到照明值
+                var lumUint = ModbusUtility.GetUInt32(lum[0], lum[1]);
+                sensor.Lux = (lumUint / 1000m);
+            }
+
+            Delay();
+
+            //sw.Stop();
+            //Debug.WriteLine($"L{sw.ElapsedMilliseconds}");
+
+            timer.Start();
         }
     }
 }

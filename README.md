@@ -6,6 +6,7 @@ Temperature and humidity sensor with modbus protocol
 
 * USB to RS485 Converter
 * XY-MD02 - temperature and humidity sensor
+* B-RS-L30 - Luminace sensor
 
 ## Connection
 

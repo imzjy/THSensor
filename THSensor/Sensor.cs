@@ -10,6 +10,11 @@ namespace THSensor
 {
     public class Sensor : ObservableObject
     {
+        public string Temperature
+        {
+            get { return $"{Temp:0.0}℃"; }
+        }
+
         private decimal temp = 0m;
         public decimal Temp
         {
@@ -20,10 +25,7 @@ namespace THSensor
             }
         }
 
-        public string Temperature
-        {
-            get { return $"{Temp:0.0}℃"; }
-        }
+
 
         public string Humidity
         {
@@ -38,6 +40,22 @@ namespace THSensor
             {
                 SetProperty(ref hum, value, nameof(Hum));
                 OnPropertyChanged(nameof(Humidity));
+            }
+        }
+
+        public string Luminace
+        {
+            get { return $"{Lux:0.0}L"; }
+        }
+
+        private decimal lux = 0m;
+        public decimal Lux
+        {
+            get => lux;
+            set
+            {
+                SetProperty(ref lux, value, nameof(Lux));
+                OnPropertyChanged(nameof(Luminace));
             }
         }
     }
